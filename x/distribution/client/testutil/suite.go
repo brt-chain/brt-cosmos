@@ -128,7 +128,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryValidatorOutstandingRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"rewards":[{"denom":"usei","amount":"1164.240000000000000000"}]}`,
+            fmt.Sprintf(`{"rewards":[{"denom":"%s","amount":"1164.240000000000000000"}]}`, sdk.MustGetBaseDenom()),
 		},
 		{
 			"text output",
@@ -191,7 +191,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryValidatorCommission() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"commission":[{"denom":"usei","amount":"464.520000000000000000"}]}`,
+            fmt.Sprintf(`{"commission":[{"denom":"%s","amount":"464.520000000000000000"}]}`, sdk.MustGetBaseDenom()),
 		},
 		{
 			"text output",
@@ -344,7 +344,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryDelegatorRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			fmt.Sprintf(`{"rewards":[{"validator_address":"%s","reward":[{"denom":"usei","amount":"387.100000000000000000"}]}],"total":[{"denom":"usei","amount":"387.100000000000000000"}]}`, valAddr.String()),
+            fmt.Sprintf(`{"rewards":[{"validator_address":"%s","reward":[{"denom":"%s","amount":"387.100000000000000000"}]}],"total":[{"denom":"%s","amount":"387.100000000000000000"}]}`, valAddr.String(), sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom()),
 		},
 		{
 			"json output (specific validator)",
@@ -354,7 +354,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryDelegatorRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"rewards":[{"denom":"usei","amount":"387.100000000000000000"}]}`,
+            fmt.Sprintf(`{"rewards":[{"denom":"%s","amount":"387.100000000000000000"}]}`, sdk.MustGetBaseDenom()),
 		},
 		{
 			"text output",
@@ -419,7 +419,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryCommunityPool() {
 		{
 			"json output",
 			[]string{fmt.Sprintf("--%s=3", flags.FlagHeight), fmt.Sprintf("--%s=json", tmcli.OutputFlag)},
-			`{"pool":[{"denom":"usei","amount":"4.740000000000000000"}]}`,
+            fmt.Sprintf(`{"pool":[{"denom":"%s","amount":"4.740000000000000000"}]}`, sdk.MustGetBaseDenom()),
 		},
 		{
 			"text output",

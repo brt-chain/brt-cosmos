@@ -20,9 +20,11 @@ type (
 	ValidatorAccumulatedCommission = sdk.DecCoins
 
 	DelegatorStartingInfo struct {
-		PreviousPeriod uint64  `json:"previous_period"`
-		Stake          sdk.Dec `json:"usei"`
-		Height         uint64  `json:"height"`
+		PreviousPeriod uint64 `json:"previous_period"`
+		// NOTE: legacy JSON tag kept for backward compatibility with v034 state and migrations.
+		// Do not change this tag; it does not imply the current base denom.
+		Stake  sdk.Dec `json:"usei"`
+		Height uint64  `json:"height"`
 	}
 
 	DelegatorWithdrawInfo struct {

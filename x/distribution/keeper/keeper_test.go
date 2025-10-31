@@ -38,17 +38,17 @@ func TestWithdrawValidatorCommission(t *testing.T) {
 	app := simapp.Setup(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	valCommission := sdk.DecCoins{
-		sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(5).Quo(sdk.NewDec(4))),
-		sdk.NewDecCoinFromDec("usei", sdk.NewDec(3).Quo(sdk.NewDec(2))),
-	}
+    valCommission := sdk.DecCoins{
+        sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(5).Quo(sdk.NewDec(4))),
+        sdk.NewDecCoinFromDec(sdk.MustGetBaseDenom(), sdk.NewDec(3).Quo(sdk.NewDec(2))),
+    }
 
 	addr := simapp.AddTestAddrs(app, ctx, 1, sdk.NewInt(1000000000))
 	valAddrs := simapp.ConvertAddrsToValAddrs(addr)
 
 	// set module account coins
 	distrAcc := app.DistrKeeper.GetDistributionAccount(ctx)
-	coins := sdk.NewCoins(sdk.NewCoin("mytoken", sdk.NewInt(2)), sdk.NewCoin("usei", sdk.NewInt(2)))
+    coins := sdk.NewCoins(sdk.NewCoin("mytoken", sdk.NewInt(2)), sdk.NewCoin(sdk.MustGetBaseDenom(), sdk.NewInt(2)))
 	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, distrAcc.GetName(), coins))
 
 	app.AccountKeeper.SetModuleAccount(ctx, distrAcc)
@@ -56,7 +56,7 @@ func TestWithdrawValidatorCommission(t *testing.T) {
 	// check initial balance
 	balance := app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(valAddrs[0]))
 	expTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1000)
-	expCoins := sdk.NewCoins(sdk.NewCoin("usei", expTokens))
+    expCoins := sdk.NewCoins(sdk.NewCoin(sdk.MustGetBaseDenom(), expTokens))
 	require.Equal(t, expCoins, balance)
 
 	// set outstanding rewards
@@ -72,16 +72,16 @@ func TestWithdrawValidatorCommission(t *testing.T) {
 	// check balance increase
 	balance = app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(valAddrs[0]))
 	require.Equal(t, sdk.NewCoins(
-		sdk.NewCoin("mytoken", sdk.NewInt(1)),
-		sdk.NewCoin("usei", expTokens.AddRaw(1)),
+        sdk.NewCoin("mytoken", sdk.NewInt(1)),
+        sdk.NewCoin(sdk.MustGetBaseDenom(), expTokens.AddRaw(1)),
 	), balance)
 
 	// check remainder
 	remainder := app.DistrKeeper.GetValidatorAccumulatedCommission(ctx, valAddrs[0]).Commission
-	require.Equal(t, sdk.DecCoins{
-		sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(1).Quo(sdk.NewDec(4))),
-		sdk.NewDecCoinFromDec("usei", sdk.NewDec(1).Quo(sdk.NewDec(2))),
-	}, remainder)
+    require.Equal(t, sdk.DecCoins{
+        sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(1).Quo(sdk.NewDec(4))),
+        sdk.NewDecCoinFromDec(sdk.MustGetBaseDenom(), sdk.NewDec(1).Quo(sdk.NewDec(2))),
+    }, remainder)
 
 	require.True(t, true)
 }
@@ -90,10 +90,10 @@ func TestGetTotalRewards(t *testing.T) {
 	app := simapp.Setup(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	valCommission := sdk.DecCoins{
-		sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(5).Quo(sdk.NewDec(4))),
-		sdk.NewDecCoinFromDec("usei", sdk.NewDec(3).Quo(sdk.NewDec(2))),
-	}
+    valCommission := sdk.DecCoins{
+        sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(5).Quo(sdk.NewDec(4))),
+        sdk.NewDecCoinFromDec(sdk.MustGetBaseDenom(), sdk.NewDec(3).Quo(sdk.NewDec(2))),
+    }
 
 	addr := simapp.AddTestAddrs(app, ctx, 2, sdk.NewInt(1000000000))
 	valAddrs := simapp.ConvertAddrsToValAddrs(addr)
@@ -113,7 +113,7 @@ func TestFundCommunityPool(t *testing.T) {
 
 	addr := simapp.AddTestAddrs(app, ctx, 2, sdk.ZeroInt())
 
-	amount := sdk.NewCoins(sdk.NewInt64Coin("usei", 100))
+    amount := sdk.NewCoins(sdk.NewInt64Coin(sdk.MustGetBaseDenom(), 100))
 	require.NoError(t, simapp.FundAccount(app.BankKeeper, ctx, addr[0], amount))
 
 	initPool := app.DistrKeeper.GetFeePool(ctx)

@@ -287,11 +287,11 @@ Where proposal.json contains:
   "title": "Community Pool Spend",
   "description": "Pay me some Atoms!",
   "recipient": "%s1s5afhd6gxevu37mkqcvvsj8qeylhn0rz46zdlq",
-  "amount": "1000usei",
-  "deposit": "1000usei"
+  "amount": "1000%s",
+  "deposit": "1000%s"
 }
 `,
-				version.AppName, bech32PrefixAccAddr,
+				version.AppName, bech32PrefixAccAddr, sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(),
 			),
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {

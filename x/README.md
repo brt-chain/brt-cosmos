@@ -49,7 +49,7 @@ To update the feesparams, use a governance proposal like such:
       "value": {
 	  "global_minimum_gas_prices": [
     		{
-      		"denom": "usei",
+      		"denom": "<base_denom>",
       		"amount":	 "1.00000000000000000"
     		}
   	]

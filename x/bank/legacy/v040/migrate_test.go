@@ -1,6 +1,7 @@
 package v040_test
 
 import (
+    "fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -23,7 +24,7 @@ func TestMigrate(t *testing.T) {
 		WithLegacyAmino(encodingConfig.Amino).
 		WithJSONCodec(encodingConfig.Marshaler)
 
-	coins := sdk.NewCoins(sdk.NewInt64Coin("usei", 50))
+    coins := sdk.NewCoins(sdk.NewInt64Coin(sdk.MustGetBaseDenom(), 50))
 	addr1, _ := sdk.AccAddressFromBech32("cosmos1xxkueklal9vejv9unqu80w9vptyepfa95pd53u")
 	acc1 := v038auth.NewBaseAccount(addr1, coins, nil, 1, 0)
 
@@ -35,7 +36,7 @@ func TestMigrate(t *testing.T) {
 		1580309972,
 	)
 
-	supply := sdk.NewCoins(sdk.NewInt64Coin("usei", 1000))
+    supply := sdk.NewCoins(sdk.NewInt64Coin(sdk.MustGetBaseDenom(), 1000))
 
 	bankGenState := v038bank.GenesisState{
 		SendEnabled: true,
@@ -48,7 +49,8 @@ func TestMigrate(t *testing.T) {
 	}
 
 	migrated := v040bank.Migrate(bankGenState, authGenState, supplyGenState)
-	expected := `{"params":{"send_enabled":[],"default_send_enabled":true},"balances":[{"address":"cosmos1xxkueklal9vejv9unqu80w9vptyepfa95pd53u","coins":[{"denom":"usei","amount":"50"}]},{"address":"cosmos15v50ymp6n5dn73erkqtmq0u8adpl8d3ujv2e74","coins":[{"denom":"usei","amount":"50"}]}],"supply":[{"denom":"usei","amount":"1000"}],"denom_metadata":[],"wei_balances":[]}`
+    expected := fmt.Sprintf(`{"params":{"send_enabled":[],"default_send_enabled":true},"balances":[{"address":"cosmos1xxkueklal9vejv9unqu80w9vptyepfa95pd53u","coins":[{"denom":"%s","amount":"50"}]},{"address":"cosmos15v50ymp6n5dn73erkqtmq0u8adpl8d3ujv2e74","coins":[{"denom":"%s","amount":"50"}]}],"supply":[{"denom":"%s","amount":"1000"}],"denom_metadata":[],"wei_balances":[]}`,
+        sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom())
 
 	bz, err := clientCtx.Codec.MarshalJSON(migrated)
 	require.NoError(t, err)

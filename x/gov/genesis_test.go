@@ -118,12 +118,12 @@ func TestImportExportQueues_ErrorUnconsistentState(t *testing.T) {
 				{
 					ProposalId: 1234,
 					Depositor:  "me",
-					Amount: sdk.Coins{
-						sdk.NewCoin(
-							"usei",
-							sdk.NewInt(1234),
-						),
-					},
+                    Amount: sdk.Coins{
+                        sdk.NewCoin(
+                            sdk.MustGetBaseDenom(),
+                            sdk.NewInt(1234),
+                        ),
+                    },
 				},
 			},
 		})

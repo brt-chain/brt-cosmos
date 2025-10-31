@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/params/types"
 )
 
@@ -18,7 +19,7 @@ func TestKeyTable(t *testing.T) {
 	require.Panics(t, func() { table.RegisterType(types.ParamSetPair{[]byte("hello"), nil, nil}) })
 
 	require.NotPanics(t, func() {
-		table.RegisterType(types.ParamSetPair{keyBondDenom, string("usei"), validateBondDenom})
+        table.RegisterType(types.ParamSetPair{keyBondDenom, string(sdk.MustGetBaseDenom()), validateBondDenom})
 	})
 	require.NotPanics(t, func() {
 		table.RegisterType(types.ParamSetPair{keyMaxValidators, uint16(100), validateMaxValidators})
@@ -38,8 +39,8 @@ func TestKeyTable(t *testing.T) {
 	require.Panics(t, func() { types.NewKeyTable(types.ParamSetPair{[]byte(""), nil, nil}) })
 
 	require.NotPanics(t, func() {
-		types.NewKeyTable(
-			types.ParamSetPair{[]byte("test"), string("usei"), validateBondDenom},
+        types.NewKeyTable(
+            types.ParamSetPair{[]byte("test"), string(sdk.MustGetBaseDenom()), validateBondDenom},
 			types.ParamSetPair{[]byte("test2"), uint16(100), validateMaxValidators},
 		)
 	})

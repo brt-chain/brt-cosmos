@@ -1,6 +1,7 @@
 package v040_test
 
 import (
+    "fmt"
 	"encoding/json"
 	"testing"
 
@@ -24,7 +25,7 @@ func TestMigrate(t *testing.T) {
 		WithLegacyAmino(encodingConfig.Amino).
 		WithJSONCodec(encodingConfig.Marshaler)
 
-	coins := sdk.NewCoins(sdk.NewInt64Coin("usei", 50))
+    coins := sdk.NewCoins(sdk.NewInt64Coin(sdk.MustGetBaseDenom(), 50))
 
 	// BaseAccount
 	pk1 := secp256k1.GenPrivKeyFromSecret([]byte("acc1")).PubKey()
@@ -83,7 +84,7 @@ func TestMigrate(t *testing.T) {
 	}
 
 	migrated := v040auth.Migrate(gs)
-	expected := `{
+    expected := fmt.Sprintf(`{
   "accounts": [
     {
       "@type": "/cosmos.auth.v1beta1.BaseAccount",
@@ -127,20 +128,20 @@ func TestMigrate(t *testing.T) {
       "delegated_free": [
         {
           "amount": "50",
-          "denom": "usei"
+          "denom": "%s"
         }
       ],
       "delegated_vesting": [
         {
           "amount": "50",
-          "denom": "usei"
+          "denom": "%s"
         }
       ],
       "end_time": "1580309973",
       "original_vesting": [
         {
           "amount": "50",
-          "denom": "usei"
+          "denom": "%s"
         }
       ]
     },
@@ -164,7 +165,7 @@ func TestMigrate(t *testing.T) {
         "original_vesting": [
           {
             "amount": "50",
-            "denom": "usei"
+            "denom": "%s"
           }
         ]
       },
@@ -190,7 +191,7 @@ func TestMigrate(t *testing.T) {
         "original_vesting": [
           {
             "amount": "50",
-            "denom": "usei"
+            "denom": "%s"
           }
         ]
       },
@@ -199,8 +200,8 @@ func TestMigrate(t *testing.T) {
         {
           "amount": [
             {
-              "amount": "50",
-              "denom": "usei"
+          "amount": "50",
+          "denom": "%s"
             }
           ],
           "length": "32"
@@ -225,10 +226,10 @@ func TestMigrate(t *testing.T) {
         "delegated_vesting": [],
         "end_time": "3160620846",
         "original_vesting": [
-          {
-            "amount": "50",
-            "denom": "usei"
-          }
+            {
+              "amount": "50",
+              "denom": "%s"
+            }
         ]
       }
     },
@@ -248,7 +249,9 @@ func TestMigrate(t *testing.T) {
     "tx_sig_limit": "20",
     "tx_size_cost_per_byte": "30"
   }
-}`
+}`,
+        sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(),
+        sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom(), sdk.MustGetBaseDenom())
 
 	bz, err := clientCtx.Codec.MarshalJSON(migrated)
 	require.NoError(t, err)

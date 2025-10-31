@@ -122,11 +122,11 @@ func TestInitGenesis_PoolsBalanceMismatch(t *testing.T) {
 		Description:     types.NewDescription("bloop", "", "", "", ""),
 	}
 	// valid params
-	params := types.Params{
+    params := types.Params{
 		UnbondingTime: 10000,
 		MaxValidators: 1,
 		MaxEntries:    10,
-		BondDenom:     "usei",
+        BondDenom:     sdk.MustGetBaseDenom(),
 	}
 
 	// test

@@ -124,7 +124,7 @@ Example Output:
         "@type": "/cosmos.bank.v1beta1.SendAuthorization",
         "spendLimit": [
           {
-            "denom":"usei",
+            "denom":"<base_denom>",
             "amount":"100"
           }
         ]
@@ -159,7 +159,7 @@ Example Output:
         "@type": "/cosmos.bank.v1beta1.SendAuthorization",
         "spend_limit": [
           {
-            "denom": "usei",
+            "denom": "<base_denom>",
             "amount": "100"
           }
         ]

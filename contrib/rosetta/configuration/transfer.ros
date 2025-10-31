@@ -1,6 +1,7 @@
 request_funds(1){
   find_account{
-    currency = {"symbol":"usei", "decimals":0};
+    // NOTE: replace <base_denom> with actual base denom when running
+    currency = {"symbol":"<base_denom>", "decimals":0};
     random_account = find_balance({
       "minimum_balance":{
         "value": "0",
@@ -50,7 +51,8 @@ create_account(1){
 transfer(3){
   transfer{
     transfer.network = {"network":"network", "blockchain":"app"};
-    currency = {"symbol":"usei", "decimals":0};
+    // NOTE: replace <base_denom> with actual base denom when running
+    currency = {"symbol":"<base_denom>", "decimals":0};
     sender = find_balance({
       "minimum_balance":{
         "value": "100",
@@ -98,7 +100,7 @@ transfer(3){
       }
     ];
     transfer.preprocess_metadata = {
-        "gas_price": "1usei",
+        "gas_price": "1<base_denom>",
         "gas_limit": 250000
     };
   }

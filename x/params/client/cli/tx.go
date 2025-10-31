@@ -50,10 +50,11 @@ Where proposal.json contains:
       "value": 105
     }
   ],
-  "deposit": "1000usei"
+  "deposit": "1000%s"
 }
 `,
 				version.AppName,
+				sdk.MustGetBaseDenom(),
 			),
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
