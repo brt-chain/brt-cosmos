@@ -416,14 +416,15 @@ func GetRequest(url string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	if err = res.Body.Close(); err != nil {
-		return nil, err
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("invalid response status code %d: %s", res.StatusCode, string(body))
 	}
 
 	return body, nil

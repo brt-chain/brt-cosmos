@@ -50,10 +50,11 @@ func (s *IntegrationTestSuite) TestLatestBlocks() {
 
 	res, err := rest.GetRequest(fmt.Sprintf("%s/blocks/latest", val0.APIAddress))
 	s.Require().NoError(err)
+	s.Require().NotEmpty(res, "response body should not be empty")
 
 	var result ctypes.ResultBlock
 	err = legacy.Cdc.UnmarshalJSON(res, &result)
-	s.Require().NoError(err)
+	s.Require().NoError(err, "failed to unmarshal response: %s", string(res))
 }
 
 func TestIntegrationTestSuite(t *testing.T) {
