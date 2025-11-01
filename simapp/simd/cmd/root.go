@@ -123,8 +123,8 @@ func initAppConfig() (string, interface{}) {
 	// - if you set srvCfg.MinGasPrices non-empty, validators CAN tweak their
 	//   own app.toml to override, or use this default value.
 	//
-	// In simapp, we set the min gas prices to 0 of base denom.
-	srvCfg.MinGasPrices = "0" + sdk.MustGetBaseDenom()
+	// In simapp, we set the min gas prices to 0 of default bond denom.
+	srvCfg.MinGasPrices = "0" + sdk.DefaultBondDenom
 	// srvCfg.BaseConfig.IAVLDisableFastNode = true // disable fastnode by default
 
 	customAppConfig := CustomAppConfig{
