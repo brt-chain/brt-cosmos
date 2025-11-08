@@ -7,6 +7,8 @@ require (
 	github.com/99designs/keyring v1.2.1
 	github.com/armon/go-metrics v0.4.1
 	github.com/bgentry/speakeasy v0.1.0
+	github.com/brt-chain/brt-db v0.0.57
+	github.com/brt-chain/brt-tm-db v0.0.6
 	github.com/btcsuite/btcd v0.22.1
 	github.com/coinbase/rosetta-sdk-go v0.7.0
 	github.com/confio/ics23/go v0.9.0
@@ -38,8 +40,6 @@ require (
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.30.0
 	github.com/savaki/jq v0.0.0-20161209013833-0e6baecebbf8
-	github.com/brt-chain/brt-db v0.0.57
-	github.com/brt-chain/brt-tm-db v0.0.6
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/pflag v1.0.5
@@ -195,6 +195,9 @@ replace (
 	// Latest goleveldb is broken, we have to stick to this version
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 	github.com/tendermint/tendermint => github.com/brt-chain/brt-tendermint v0.5.1-0.20250227150437-9e71c7016980
+	// Pin opentelemetry to v1.9.0 to maintain Go 1.21 compatibility
+	go.opentelemetry.io/otel => go.opentelemetry.io/otel v1.9.0
+	go.opentelemetry.io/otel/metric => go.opentelemetry.io/otel/metric v1.9.0
 	// latest grpc doesn't work with with our modified proto compiler, so we need to enforce
 	// the following version across all dependencies.
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2

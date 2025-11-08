@@ -1,8 +1,8 @@
-# This module represents buf.build/sei-protocol/cosmos-sdk
+# This module represents buf.build/brt-chain/cosmos-sdk
 version: v1
-name: buf.build/sei-protocol/cosmos-sdk
+name: buf.build/brt-chain/cosmos-sdk
 deps:
-  - buf.build/sei-protocol/third-party
+  - buf.build/brt-chain/third-party
 
 breaking:
   use:
